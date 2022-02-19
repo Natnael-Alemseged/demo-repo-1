@@ -13,7 +13,7 @@ void main() => runApp(
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {},
-            child: Text("tap"),
+            child: const Text("tap"),
             backgroundColor: Colors.blue[600],
           ),
         ),
