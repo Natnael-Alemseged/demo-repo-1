@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "309219699475",
+    "project_id": "metshafe-logger",
+    "storage_bucket": "metshafe-logger.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:309219699475:android:2c4089511e9f6b7d2f48e6",
+        "android_client_info": {
+          "package_name": "com.NotaZnation_flutter_Project_Metshafe_logger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "309219699475-5si4nnlmfa0e85bj9jarsn69g80ukaln.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyyH5LRmtyg07as7odKX9gbwCAYZ_lkrw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "309219699475-5si4nnlmfa0e85bj9jarsn69g80ukaln.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
