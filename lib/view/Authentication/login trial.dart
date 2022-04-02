@@ -12,8 +12,8 @@ import 'package:untitled/widgets/custom_btn.dart'; */
 class LoginWidget1 extends StatelessWidget {
   LoginWidget1({Key? key}) : super(key: key);
 
-  final _formKey = GlobalKey<FormState>();
   final loginController = Get.put(LoginController());
+
 //  var btn = Custom_btn(buttonLabel: 'Log in');
 
   //editing controller
@@ -151,8 +151,19 @@ class LoginWidget1 extends StatelessWidget {
                           ),
                           Custom_btn(
                             buttonLabel: "Log in",
-                            onPressed: () {
-                              loginController.checkLogin();
+                            onPressed: () async {
+                              var x = await loginController.checkLogin();
+
+                              if (x == true) {
+                                var y = await loginController.login(
+                                    loginController.emailController.text.trim(),
+                                    loginController.passwordController.text
+                                        .trim());
+
+                                if (y == true) {
+                                  Get.offAllNamed('/Home');
+                                }
+                              } else {}
                             },
                           ),
                           SizedBox(height: 10),
@@ -169,7 +180,7 @@ class LoginWidget1 extends StatelessWidget {
                                       style: TextStyle(color: Colors.blue),
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () {
-                                          Get.off(() => SignupWidget());
+                                          Get.offAll(() => SignupWidget());
                                         }),
                                 ],
                               ),

@@ -1,3 +1,4 @@
+import 'package:app/Controller/Authentication/signupController.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,7 +11,7 @@ class SignupWidget extends StatelessWidget {
 
   //final _formKey = GlobalKey<FormState>();
 
-  //editing controller
+  var signupController = Get.put(SignupController());
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +21,7 @@ class SignupWidget extends StatelessWidget {
           padding: EdgeInsets.all(5),
           reverse: true,
           child: Form(
+            key: signupController.signupFormKey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -60,10 +62,37 @@ class SignupWidget extends StatelessWidget {
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25),
                             ),
-                            hintText: "Usernmae",
+                            hintText: "First Name",
                           ),
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.emailAddress,
+                          controller: signupController.firstNameController,
+                          onSaved: (value) {
+                            signupController.firstname = value!;
+                          },
+                          validator: (value) {
+                            return signupController.validateFirstName(value!);
+                          },
+                        ),
+                        SizedBox(height: 20),
+                        TextFormField(
+                          //controller: signupController.,
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.person),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            hintText: "Last Name",
+                          ),
+                          textInputAction: TextInputAction.next,
+                          controller: signupController.lastNameController,
+                          keyboardType: TextInputType.emailAddress,
+                          onSaved: (value) {
+                            signupController.lastname = value!;
+                          },
+                          validator: (value) {
+                            return signupController.validateLastName(value!);
+                          },
                         ),
                         SizedBox(height: 20),
                         TextFormField(
@@ -75,67 +104,55 @@ class SignupWidget extends StatelessWidget {
                             ),
                             hintText: "Email",
                           ),
+                          controller: signupController.emailController,
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.emailAddress,
+                          onSaved: (value) {
+                            signupController.email = value!;
+                          },
+                          validator: (value) {
+                            return signupController.validateEmail(value!);
+                          },
                         ),
                         SizedBox(height: 20),
-
-                        /*  GetBuilder<LoginController>(
-                            builder: (loginController) {
-                              return  */
-
-                        TextFormField(
-                          // obscureText: loginController.isPasswordHidden,
-
-                          // controller: userController.password,
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.lock),
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            hintText: "Password",
-                            suffix: InkWell(
-                              child: Icon(
-                                Icons.visibility,
-                                color: Colors.grey,
-                                size: 20,
-                              ),
-                              onTap: () {
-                                // loginController
-                                //.changePasswordVisibility();
+                        GetBuilder<SignupController>(
+                          builder: (signupController) {
+                            return TextFormField(
+                              obscureText: signupController.isPasswordHidden,
+                              controller: signupController.passwordController,
+                              onSaved: (value) {
+                                signupController.password = value!;
                               },
-                            ),
-                          ),
+                              validator: (value) {
+                                return signupController
+                                    .validatePassword(value!);
+                              },
+                              decoration: InputDecoration(
+                                prefixIcon: Icon(Icons.lock),
+                                fillColor: Colors.white,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
+                                hintText: "Password",
+                                suffix: InkWell(
+                                  child: Icon(
+                                    Icons.visibility,
+                                    color: Colors.grey,
+                                    size: 20,
+                                  ),
+                                  onTap: () {
+                                    signupController.changePasswordVisibility();
+                                  },
+                                ),
+                              ),
+                            );
+                          },
                         ),
                         SizedBox(height: 20),
-                        /* GetBuilder<LoginController>(
-                            builder: (loginController) {
+                        /* GetBuilder<signupController>(
+                            builder: (signupController) {
                               return  */
-                        TextFormField(
-                          //   obscureText: loginController.isPasswordHidden,
 
-                          // controller: userController.password,
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.lock),
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            hintText: "Repeat Password",
-                            suffix: InkWell(
-                              child: Icon(
-                                Icons.visibility,
-                                color: Colors.grey,
-                                size: 20,
-                              ),
-                              onTap: () {
-                                // loginController
-                                //     .changePasswordVisibility();
-                              },
-                            ),
-                          ),
-                        ),
                         Divider(
                           height: 30,
                           thickness: 2,
@@ -144,7 +161,18 @@ class SignupWidget extends StatelessWidget {
                         ),
                         Custom_btn(
                           buttonLabel: 'Sign Up',
-                          onPressed: () {},
+                          onPressed: () async {
+                            var x = await signupController.checkSignup();
+                            if (x == true) {
+                              var y = await signupController.register(
+                                  signupController.emailController.text,
+                                  signupController.passwordController.text);
+                              if (y == true) {
+                                Get.offAllNamed('/Home');
+                                print(signupController.emailController.text);
+                              }
+                            } else {}
+                          },
                         ),
                         SizedBox(height: 20),
                         GestureDetector(
@@ -160,7 +188,7 @@ class SignupWidget extends StatelessWidget {
                                   style: TextStyle(color: Colors.blue[400]),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
-                                      Get.offNamed('/login');
+                                      Get.offAllNamed('/login');
                                     },
                                 ),
                               ],

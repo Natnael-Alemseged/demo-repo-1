@@ -3,7 +3,6 @@ import 'package:app/util/Custom_btn.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'ForgotPassword.dart';
 import 'Signup.dart';
 /* import 'package:untitled/constants/controllers.dart';
@@ -12,11 +11,7 @@ import 'package:untitled/widgets/custom_btn.dart'; */
 class LoginWidget extends StatelessWidget {
   LoginWidget({Key? key}) : super(key: key);
 
-  final _formKey = GlobalKey<FormState>();
   final loginController = Get.put(LoginController());
-//  var btn = Custom_btn(buttonLabel: 'Log in');
-
-  //editing controller
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +22,7 @@ class LoginWidget extends StatelessWidget {
         reverse: true,
         child: Form(
           key: loginController.loginFormKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -89,14 +85,13 @@ class LoginWidget extends StatelessWidget {
                                 color: Colors.grey.withOpacity(.3),
                               ),
                               child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 4),
-                                  child: GetBuilder<LoginController>(
-                                      builder: (loginController) {
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 4),
+                                child: GetBuilder<LoginController>(
+                                  builder: (loginController) {
                                     return TextFormField(
                                       obscureText:
                                           loginController.isPasswordHidden,
-                                      // controller: userController.password,
                                       decoration: InputDecoration(
                                         icon: Icon(Icons.lock),
                                         fillColor: Colors.white,
@@ -124,7 +119,9 @@ class LoginWidget extends StatelessWidget {
                                             .validatePassword(value!);
                                       },
                                     );
-                                  })),
+                                  },
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -140,7 +137,7 @@ class LoginWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         GestureDetector(
-                          //onTap: onTap,
+                          // onTap: onTap,
                           child: RichText(
                             text: TextSpan(
                               children: [
@@ -165,8 +162,18 @@ class LoginWidget extends StatelessWidget {
                     ),
                     Custom_btn(
                       buttonLabel: "Login",
-                      onPressed: () {
-                        loginController.checkLogin();
+                      onPressed: () async {
+                        var x = await loginController.checkLogin();
+
+                        if (x == true) {
+                          var y = await loginController.login(
+                              loginController.emailController.text.trim(),
+                              loginController.passwordController.text.trim());
+
+                          if (y == true) {
+                            Get.offAllNamed('/Home');
+                          }
+                        } else {}
                       },
                     ),
                     SizedBox(height: 10),
@@ -175,7 +182,7 @@ class LoginWidget extends StatelessWidget {
                     
                     constraints: BoxConstraints.tightFor(width: context.width),
                     child: ElevatedButton(
-                        style: ButtonStyle(
+                        style: ButtonStyle(password
                           shape: MaterialStateProperty.all(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),

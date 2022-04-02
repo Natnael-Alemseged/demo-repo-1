@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:app/util/Custom_btn.dart';
+import 'package:app/Controller/Authentication/forgotPassword.dart';
 /* import 'package:untitled/constants/controllers.dart';
 import 'package:untitled/widgets/custom_btn.dart'; */
 
 class ForgotPasswordWidget extends StatelessWidget {
   ForgotPasswordWidget({Key? key}) : super(key: key);
 
-  final _formKey = GlobalKey<FormState>();
-
+  final forgotPassword = Get.put(ForgotPassword());
   //editing controller
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class ForgotPasswordWidget extends StatelessWidget {
           padding: EdgeInsets.all(5),
           reverse: true,
           child: Form(
-            // key: loginController.loginFormKey,
+            key: forgotPassword.forgotpasswordFormKey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -62,6 +62,7 @@ class ForgotPasswordWidget extends StatelessWidget {
                           ),
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.emailAddress,
+                          controller: forgotPassword.emailController,
 
                           /*   controller: loginController.emailController,
                             onSaved: (value) {
@@ -71,7 +72,7 @@ class ForgotPasswordWidget extends StatelessWidget {
                               return loginController.validateEmail(value!);
                             }, */
                         ),
-                        Divider(
+                        const Divider(
                           height: 25,
                           thickness: 2,
                           indent: 10,
@@ -80,7 +81,10 @@ class ForgotPasswordWidget extends StatelessWidget {
                         SizedBox(height: 20),
                         Custom_btn(
                           buttonLabel: 'Reset Password',
-                          onPressed: () {},
+                          onPressed: () {
+                            forgotPassword.sendpasswordresetemail(
+                                forgotPassword.emailController.text);
+                          },
                         ),
                       ],
                     ),
