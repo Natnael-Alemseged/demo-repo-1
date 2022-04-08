@@ -1,7 +1,7 @@
 import 'dart:ffi';
 
 import 'package:app/util/main_copy.dart';
-import 'package:app/view/Home.dart';
+import 'package:app/view/Home_navigation.dart';
 import 'package:app/view/Authentication/login.dart';
 import 'package:get/get.dart';
 
@@ -18,7 +18,7 @@ class splasController extends GetxController {
     if (!isLoggedin.value) {
       Get.offAll(() => LoginWidget());
     } else {
-      Get.offAll(HomeWidget());
+      Get.offAll(HomeNavigationWidget());
     }
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:app/Model/User/user_Model.dart';
 import 'profile_DiceBear_Image.dart';
-import 'profile_DiceBear_Image.dart';
 import 'package:app/Controller/Authentication/SignOut.dart';
 import 'package:get/get.dart';
 
@@ -69,9 +68,13 @@ class NavigationDrawerWidget extends StatelessWidget {
                 icon: Icons.download,
                 onClicked: () => selectedItem(context, 5)),
             buildMenuItem(
+                text: 'Upload',
+                icon: Icons.upload,
+                onClicked: () => selectedItem(context, 6)),
+            buildMenuItem(
                 text: 'Log Out',
                 icon: Icons.logout,
-                onClicked: () => selectedItem(context, 6)),
+                onClicked: () => selectedItem(context, 7)),
           ],
         ),
       ),
@@ -143,6 +146,9 @@ class NavigationDrawerWidget extends StatelessWidget {
         //
         break;
       case 6:
+        Get.toNamed('/upload');
+        break;
+      case 7:
         signoutController.signOut();
         //
         break;

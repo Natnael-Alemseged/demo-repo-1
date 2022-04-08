@@ -20,7 +20,7 @@ class _SplashState extends State<Splash> {
   }
 
   _homeOrLogin() async {
-    Future.delayed(Duration(milliseconds: 1000), () {
+    Future.delayed(Duration(milliseconds: 3000), () {
       // title: 'check it out',
       // loginController.initialScreen();
     });
@@ -30,21 +30,24 @@ class _SplashState extends State<Splash> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: Column(
+        child: Center(
+            child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/1.png'),
+            Text(
+              "Mets'hafe Logger",
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text(
-                  'Splash Screen',
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                ),
+                Image.asset(
+                  'assets/2.png',
+                )
               ],
-            )
+            ),
           ],
-        ),
+        )),
       ),
     );
   }

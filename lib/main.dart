@@ -1,11 +1,12 @@
 import 'package:app/Controller/Authentication/loginController.dart';
 import 'package:app/Controller/Authentication/signupController.dart';
-import 'package:app/view/Home.dart';
-import 'package:app/view/Splash.dart';
+import 'package:app/view/Home_navigation.dart';
+import 'package:app/view/Splash/Splash.dart';
 import 'package:app/view/Authentication/login%20trial.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:app/view/Uploads.dart';
 
 //import 'package:platform_device_id/platform_device_id.dart';
 
@@ -32,7 +33,8 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(name: '/', page: () => Splash()),
         GetPage(name: '/login', page: () => LoginWidget1()),
-        GetPage(name: '/Home', page: () => HomeWidget()),
+        GetPage(name: '/Home', page: () => HomeNavigationWidget()),
+        GetPage(name: '/upload', page: () => Uploads()),
       ],
       /*  routingCallback: (routing) {
           if (routing!.current == '/next') {
