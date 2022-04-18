@@ -17,7 +17,7 @@ class _HomeNavigationWidgetState extends State<HomeNavigationWidget> {
   final screens = [
     Home(),
     Downloads(),
-    Uploads(),
+    //Uploads(),
   ];
 
   @override
@@ -43,7 +43,7 @@ class _HomeNavigationWidgetState extends State<HomeNavigationWidget> {
               icon: Icon(Icons.download),
               label: 'Download',
             ),
-            BottomNavigationBarItem(icon: Icon(Icons.upload), label: 'Upload'),
+            // BottomNavigationBarItem(icon: Icon(Icons.upload), label: 'Upload'),
           ]),
     );
   }

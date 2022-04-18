@@ -169,7 +169,6 @@ class SignupWidget extends StatelessWidget {
                                   signupController.passwordController.text);
                               if (y == true) {
                                 Get.offAllNamed('/Home');
-                                print(signupController.emailController.text);
                               }
                             } else {}
                           },
