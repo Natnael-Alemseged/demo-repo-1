@@ -1,17 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:app/Controller/Authentication/loginController.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_notifier.dart';
+import 'package:hive/hive.dart';
+part 'user_Model.g.dart';
 
-class user_Model {
-  static const FIRS_TNAME = 'firstName';
-  static const LAST_TNAME = 'lastName';
-  static const BIRTH_DATE = 'birthDate';
-  static const EMAIL = 'email';
-
+@HiveType(typeId: 1)
+class user_Model extends HiveObject {
+  @HiveField(0)
+  late String? email;
+  @HiveField(1)
   late String? firstName;
-  String? lastName;
-  //DateTime birthDate;
-  String? email;
+  @HiveField(2)
+  late String? lastName;
 
   user_Model({this.firstName, this.lastName, this.email});
 

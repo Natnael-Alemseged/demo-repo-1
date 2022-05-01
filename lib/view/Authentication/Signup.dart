@@ -165,10 +165,12 @@ class SignupWidget extends StatelessWidget {
                             var x = await signupController.checkSignup();
                             if (x == true) {
                               var y = await signupController.register(
-                                  signupController.emailController.text,
+                                  signupController.emailController.text
+                                      .toLowerCase(),
                                   signupController.passwordController.text);
-                              if (y == true) {
-                                Get.offAllNamed('/Home');
+                              if (y == Future<bool>.value(true)) {
+                                await Get.delete<SignupController>();
+                                // Get.offAllNamed('/Home');
                               }
                             } else {}
                           },
@@ -186,7 +188,7 @@ class SignupWidget extends StatelessWidget {
                                   text: " Log in ",
                                   style: TextStyle(color: Colors.blue[400]),
                                   recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
+                                    ..onTap = () async {
                                       Get.offAllNamed('/login');
                                     },
                                 ),

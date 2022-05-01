@@ -48,51 +48,6 @@ class _HomeState extends State<Home> {
                       },
                     ),
                   );
-
-            /* FutureBuilder(
-        future: ,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            //Build you UI
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        },
-      ),
-    ); */
-            /*  Container(
-        height: 270,
-        child: ListView.separated(
-          padding: EdgeInsets.all(16),
-          scrollDirection: Axis.horizontal,
-          itemCount: 3,
-          separatorBuilder: (context, _) => SizedBox(width: 12),
-          itemBuilder: (context, index) => BuildCard(item: items[index]),
-        ),
-      ),
-    ); */
-
-            //     CustomScrollView(
-            //   slivers: [
-            //     //SliverPersistentHeader(pinned:true, delegate: SearchDelegate()),
-            //     StreamBuilder<QuerySnapshot>(
-            //         stream: firestore
-            //             .collection("Book")
-            //             .orderBy('bookTitle', descending: true)
-            //             .snapshots(),
-            //         builder: (context, dataSnapshot) {
-            //           return !dataSnapshot.hasData
-            //               ? SliverToBoxAdapter(
-            //                   child: Center(
-            //                     child: CircularProgressIndicator(),
-            //                   ),
-            //                 )
-            //               : SliverGrid.count(
-            //                   crossAxisCount: 1,
-            //                 );
-            //         }),
-            //   ],
-            // ),
           }),
     );
   }

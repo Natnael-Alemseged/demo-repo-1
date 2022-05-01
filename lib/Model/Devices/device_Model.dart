@@ -1,36 +1,36 @@
-import 'package:flutter/widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hive/hive.dart';
+part 'device_Model.g.dart';
 
-class device_Model {
-  static const DEVICEeID = "id";
-  static const Name = "id";
-  static const OS = "id";
+@HiveType(typeId: 0)
+class device_Model extends HiveObject {
+  @HiveField(0)
+  late String deviceID;
+  // @HiveField(1)
+  // late String? os;
+  // @HiveField(2)
+  // late String? productName;
+  @HiveField(1)
+  late String modelName;
+  @HiveField(2)
+  late String platformVersion;
+  @HiveField(3)
+  late String deviceName;
+  @HiveField(4)
+  late String hardware;
+  @HiveField(5)
+  late String manufacturerName;
 
-  final String deviceID;
-  final String os;
-  final String name;
+  // device_Model(
+  //     {this.manufacturerName,
+  //     this.modelName,
+  //     this.deviceName,
+  //     this.platformVersion,
+  //     this.deviceID});
 
-  device_Model({
-    required this.deviceID,
-    required this.os,
-    required this.name,
-  });
-
-//Register device when signing up and set it as primary device
-  void Register_Device_firstTime() {}
-
-  //check number of logged in devices in database
-
-  void Check_Number_of_Devices() {}
-
-  //set current device as primary device
-
-  void Set_as_Primary() {}
-
-  //Delete device record from database
-
-  void Delete_Device() {}
-
-  //add device to devices list when signing in/loggin in
-
-  void Add_Device() {}
+  /*  device_Model.fromSnapshot({DocumentSnapshot? documentSnapshot}) {
+    deviceID = documentSnapshot!['email'];
+    os = documentSnapshot['firstName'];
+    name = documentSnapshot['lastName'];
+  } */
 }

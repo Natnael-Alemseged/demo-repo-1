@@ -7,16 +7,30 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:app/view/Uploads.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'Controller/Device/DeviceController.dart';
+import 'Model/Book/book_Model.dart';
+import 'Model/Devices/device_Model.dart';
+import 'Model/User/user_Model.dart';
 
 //import 'package:platform_device_id/platform_device_id.dart';
 
-void main() async {
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp().then((Value) {
-    Get.put(LoginController());
-    Get.put(SignupController());
-  });
+  //
+  await Firebase.initializeApp();
 
+  await Hive.initFlutter();
+  //
+  Hive.registerAdapter(deviceModelAdapter());
+  await Hive.openBox<device_Model>('device');
+  Hive.registerAdapter(userModelAdapter());
+  await Hive.openBox<user_Model>('user');
+  Hive.registerAdapter(bookModelAdapter());
+  await Hive.openBox<book_Model>('books');
+  //
+  await Get.put(DeviceController);
   runApp(const MyApp());
 }
 

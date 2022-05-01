@@ -1,14 +1,17 @@
+import 'dart:math';
+
 import 'package:app/Common_Components/Firebase/Firebase.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-
+import '../Device/DeviceController.dart';
 import '../../Common_Components/Widgets/Loading.dart';
 import '../../Model/User/user_Model.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
+import '../Device/RegisteDevice.dart';
 
 class LoginController extends GetxController {
+//  final deviceController = Get.find<DeviceController>();
+  //var deviceController = Get.find<DeviceController>();
   ////////////////////////////////////
   /// backend Controller variables  //
   ///////////////////////////////////
@@ -76,6 +79,12 @@ class LoginController extends GetxController {
     return null;
   }
 
+  @override
+  void dispose() {
+    Get.delete<LoginController>();
+    super.dispose();
+  }
+
   //upon pressing of the login button this method checks that there are no errors on the form field if so continue with login else show errors and prevent login
   Future<bool> checkLogin() {
     final isValid = loginFormKey.currentState!.validate();
@@ -111,13 +120,19 @@ class LoginController extends GetxController {
   }
 
   Future<bool> login(String email, password) async {
+    //email = email.toLowerCase();
     try {
       showLoading();
       await auth
           .signInWithEmailAndPassword(email: email, password: password)
-          .then((result) {
-        _initializeUserMode(email);
+          .then((value) async {
+        var registerDevice = await RegisterDevice(email: email);
+        await registerDevice.checkNumber();
       });
+
+      // var registerDevice = await RegisterDevice(email: email);
+      // await registerDevice.checkNumber();
+
       return Future<bool>.value(true);
       // ignore: empty_catches
     } catch (firebaseAuthException) {

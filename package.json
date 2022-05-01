@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "express": "^4.17.3",
-    "nodemailer": "^6.7.2"
+    "jshint": "^2.13.4",
+    "nodemailer": "^6.7.2",
+    "yenepaysdk": "^1.2.0"
   }
 }

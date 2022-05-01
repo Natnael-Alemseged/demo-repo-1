@@ -7,13 +7,13 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
-import '../../Model/Book/Book_Model.dart';
+import '../../Model/Book/book_Model.dart';
 
 class Upload_Controller extends GetxController {
 //form state key for upload
   final GlobalKey<FormState> uploadFormKey = GlobalKey<FormState>();
   //instantiate book Model object as observable
-  var bookModel = Book_Model().obs;
+  var bookModel = book_Model().obs;
   // text controllers
 
   TextEditingController bookTitle_Controller = TextEditingController();

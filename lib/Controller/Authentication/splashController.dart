@@ -5,6 +5,8 @@ import 'package:app/view/Home_navigation.dart';
 import 'package:app/view/Authentication/login.dart';
 import 'package:get/get.dart';
 
+import '../../view/Authentication/login trial.dart';
+
 class splasController extends GetxController {
   var isLoggedin = false.obs;
 
@@ -16,7 +18,7 @@ class splasController extends GetxController {
 
   _setInitialScreen() {
     if (!isLoggedin.value) {
-      Get.offAll(() => LoginWidget());
+      Get.offAll(() => LoginWidget1());
     } else {
       Get.offAll(HomeNavigationWidget());
     }

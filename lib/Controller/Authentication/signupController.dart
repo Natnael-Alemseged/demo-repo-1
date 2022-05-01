@@ -1,6 +1,7 @@
 import 'package:app/Common_Components/Firebase/Firebase.dart';
 import 'package:app/Model/User/user_Model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
@@ -8,6 +9,7 @@ import '../../Common_Components/Widgets/Loading.dart';
 
 class SignupController extends GetxController {
   late Rx<User?> _user;
+
   //
   //initialize user model
   var userModel = user_Model().obs;
@@ -104,17 +106,32 @@ class SignupController extends GetxController {
   }
 
   Future<bool> register(String email, password) async {
+    var users;
     try {
       showLoading();
+
       await auth
           .createUserWithEmailAndPassword(
               email: email.trim(), password: password.trim())
-          .then((value) =>
-              firestore.collection('Users').doc(emailController.text).set({
+          .then((value) => users = FirebaseAuth.instance.currentUser!)
+          .then((value) async => await users.sendEmailVerification())
+          .then((value) => firestore
+                  .collection('Users')
+                  .doc(emailController.text.toLowerCase())
+                  .set({
                 'firstName': firstNameController.text.trim(),
                 'lastName': lastNameController.text.trim(),
-                'email': emailController.text.trim()
-              }));
+                'email': email
+              }))
+          //next we
+          .then((value) => firestore.collection('Users').doc(email).set({
+                'firstName': firstNameController.text.trim(),
+                'lastName': lastNameController.text.trim(),
+                'email': email
+              }))
+          //next we create the Devices Collection to store the number of devices
+          .then((value) =>
+              firestore.collection('Users').doc(email).collection('Devices'));
       _initializeUserMode(email);
       return Future<bool>.value(true);
     } catch (firebaseAuthException) {
@@ -127,7 +144,7 @@ class SignupController extends GetxController {
   _initializeUserMode(String email) async {
     userModel.value = (await firestore
         .collection('Users')
-        .doc(emailController.text.trim())
+        .doc(email)
         .get()
         .then((doc) => user_Model.fromSnapshot(documentSnapshot: doc)));
   }

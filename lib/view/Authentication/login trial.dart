@@ -3,7 +3,7 @@ import 'package:app/util/Custom_btn.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import '../../Controller/Device/DeviceController.dart';
 import 'ForgotPassword.dart';
 import 'Signup.dart';
 /* import 'package:untitled/constants/controllers.dart';
@@ -11,8 +11,9 @@ import 'package:untitled/widgets/custom_btn.dart'; */
 
 class LoginWidget1 extends StatelessWidget {
   LoginWidget1({Key? key}) : super(key: key);
+  var devicecontroller = Get.put(DeviceController(), permanent: true);
 
-  final loginController = Get.put(LoginController());
+  final loginController = Get.find<LoginController>();
 
 //  var btn = Custom_btn(buttonLabel: 'Log in');
 
@@ -156,7 +157,9 @@ class LoginWidget1 extends StatelessWidget {
 
                               if (x == true) {
                                 var y = await loginController.login(
-                                    loginController.emailController.text.trim(),
+                                    loginController.emailController.text
+                                        .trim()
+                                        .toLowerCase(),
                                     loginController.passwordController.text
                                         .trim());
 
@@ -179,8 +182,10 @@ class LoginWidget1 extends StatelessWidget {
                                       text: " Create Account",
                                       style: TextStyle(color: Colors.blue),
                                       recognizer: TapGestureRecognizer()
-                                        ..onTap = () {
-                                          Get.offAll(() => SignupWidget());
+                                        ..onTap = () async {
+                                          Get.offAll(() => SignupWidget())!
+                                              .then((value) => Get.delete<
+                                                  LoginController>());
                                         }),
                                 ],
                               ),
