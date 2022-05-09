@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import '../Cryptography Controller/encryption.dart';
 import 'package:app/Controller/Cryptography%20Controller/encryption.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -18,9 +17,11 @@ class DownloadController extends GetxController {
   late var x;
   late var y;
   //
-  void onInit() {
+  void onInit() async {
+    await requestStoragePermission();
     x = _localPath;
     y = getExternalVisibleDir;
+    //var exportPath = await channel.invokeMethod('getExternalStorageDirectory');
     super.onInit();
   }
 
@@ -28,18 +29,20 @@ class DownloadController extends GetxController {
 
   Future<Directory> get _localPath async {
     final directory = await getExternalStorageDirectory();
+
+    Get.snackbar(directory.toString(), 'message');
     return directory!;
   }
 
   Future<Directory> get getExternalVisibleDir async {
 //
-    if (await Directory('/Storage/emulated/0/MetshafeLogger/Books').exists()) {
-      final externalDir = Directory('/Storage/emulated/0/MetshafeLogger/Books');
+    if (await Directory('/storage/emulated/0/MetshafeLogger/Books').exists()) {
+      final externalDir = Directory('/storage/emulated/0/MetshafeLogger/Books');
       return externalDir;
     } else {
-      await Directory('/Storage/emulated/0/MetshafeLogger/Books')
+      await Directory('/storage/emulated/0/MetshafeLogger/Books')
           .create(recursive: true);
-      final externalDir = Directory('/Storage/emulated/0/MetshafeLogger/Books');
+      final externalDir = Directory('/storage/emulated/0/MetshafeLogger/Books');
       return externalDir;
     }
   }
@@ -60,7 +63,7 @@ class DownloadController extends GetxController {
 
       var encryptResult = _encryptBook(resp.bodyBytes);
       //
-      String p = await _writeData(encryptResult, y.path + '/$bookName.aes');
+      String p = await _writeData(encryptResult, x.path + '/$bookName.aes');
       dismissLoadingWidget();
       Get.snackbar('success', p);
     } catch (e) {
@@ -83,13 +86,16 @@ class DownloadController extends GetxController {
   }
 
   requestStoragePermission() async {
-    if (!await Permission.storage.isGranted) {
+    if (await Permission.storage.request().isGranted != true) {
       PermissionStatus result = await Permission.storage.request();
+
       if (result.isGranted) {
         _isGranted = true.obs;
       } else {
         _isGranted = false.obs;
       }
+    } else if (await Permission.storage.request().isPermanentlyDenied == true) {
+      await openAppSettings();
     }
   }
 

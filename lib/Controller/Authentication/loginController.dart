@@ -1,13 +1,13 @@
-import 'dart:math';
-
 import 'package:app/Common_Components/Firebase/Firebase.dart';
+import 'package:app/Controller/Authentication/UserBox.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import '../Device/DeviceController.dart';
 import '../../Common_Components/Widgets/Loading.dart';
 import '../../Model/User/user_Model.dart';
 import '../Device/RegisteDevice.dart';
+import 'package:app/Model/User/user_Model.dart';
 
 class LoginController extends GetxController {
 //  final deviceController = Get.find<DeviceController>();
@@ -128,6 +128,7 @@ class LoginController extends GetxController {
           .then((value) async {
         var registerDevice = await RegisterDevice(email: email);
         await registerDevice.checkNumber();
+        await registerUserToHive(email);
       });
 
       // var registerDevice = await RegisterDevice(email: email);
@@ -143,11 +144,28 @@ class LoginController extends GetxController {
     }
   }
 
-  _initializeUserMode(String email) async {
-    userModel.value = (await firestore
-        .collection('Users')
-        .doc(emailController.text.trim())
-        .get()
-        .then((doc) => user_Model.fromSnapshot(documentSnapshot: doc)));
+  registerUserToHive(String email) async {
+    try {
+      await firestore
+          .collection('Users')
+          .doc(email)
+          .get()
+          .then<dynamic>((DocumentSnapshot snapshot) async {
+        //user hive boxto store data from firestore to hive
+
+        final userModel = user_Model()
+          ..email = email
+          ..firstName = snapshot['firstName']
+          ..lastName = snapshot['lastName'];
+
+        final mybox = UserBox.getUser();
+        mybox.add(userModel);
+        print('sucessfully added user model to hive db');
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+
+    //firestore.
   }
 }

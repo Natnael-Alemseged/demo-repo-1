@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
 import 'package:app/Model/User/user_Model.dart';
+import '../../Controller/Authentication/UserBox.dart';
 import 'profile_DiceBear_Image.dart';
 import 'package:app/Controller/Authentication/SignOut.dart';
 import 'package:get/get.dart';
@@ -17,68 +17,79 @@ class NavigationDrawerWidget extends StatelessWidget {
   final Padding = EdgeInsets.symmetric(horizontal: 20);
   @override
   Widget build(BuildContext context) {
+    final mybox = UserBox.getUser();
+    final user = mybox.get(0);
+    var email = user!.email;
+    var firstName = user.firstName.toString();
+    var lastName = user.lastName.toString();
     return Drawer(
-      child: Material(
-        color: Colors.grey[700],
-        child: ListView(
-          padding: Padding,
-          children: [
-            buildHeader(
-                urlImage: img.makeuriImage().toString(),
-                name: '$user.firstname $user.lastname',
-                email: 'user.email',
-                onClicked: () {}),
-            SizedBox(
-              height: 48,
+        child: Material(
+      color: Colors.grey[700],
+      child: ListView(
+        children: [
+          buildHeader(
+              urlImage: img.makeuriImage().toString(),
+              name: firstName + ' ' + lastName,
+              email: email.toString(),
+              onClicked: () {}),
+          Divider(color: Colors.white70),
+          Container(
+            padding: Padding,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 32,
+                ),
+                buildMenuItem(
+                  text: 'Account',
+                  icon: Icons.account_box,
+                  onClicked: () => selectedItem(context, 0),
+                ),
+                buildMenuItem(
+                    text: 'Settings',
+                    icon: Icons.settings,
+                    onClicked: () => selectedItem(context, 0)),
+                buildMenuItem(
+                    text: 'About us',
+                    icon: Icons.people,
+                    onClicked: () => selectedItem(context, 1)),
+                buildMenuItem(
+                    text: 'Help',
+                    icon: Icons.help,
+                    onClicked: () => selectedItem(context, 2)),
+                SizedBox(
+                  height: 24,
+                ),
+                Divider(color: Colors.white70),
+                SizedBox(
+                  height: 24,
+                ),
+                buildMenuItem(
+                    text: 'Favourites',
+                    icon: Icons.favorite,
+                    onClicked: () => selectedItem(context, 3)),
+                buildMenuItem(
+                    text: 'Purchased',
+                    icon: Icons.shop,
+                    onClicked: () => selectedItem(context, 4)),
+                buildMenuItem(
+                    text: 'Downloads',
+                    icon: Icons.download,
+                    onClicked: () => selectedItem(context, 5)),
+                buildMenuItem(
+                    text: 'Upload',
+                    icon: Icons.upload,
+                    onClicked: () => selectedItem(context, 6)),
+                buildMenuItem(
+                    text: 'Log Out',
+                    icon: Icons.logout,
+                    onClicked: () => selectedItem(context, 7)),
+              ],
             ),
-            buildMenuItem(
-              text: 'Account',
-              icon: Icons.account_box,
-              onClicked: () => selectedItem(context, 0),
-            ),
-            buildMenuItem(
-                text: 'Settings',
-                icon: Icons.settings,
-                onClicked: () => selectedItem(context, 0)),
-            buildMenuItem(
-                text: 'About us',
-                icon: Icons.people,
-                onClicked: () => selectedItem(context, 1)),
-            buildMenuItem(
-                text: 'Help',
-                icon: Icons.help,
-                onClicked: () => selectedItem(context, 2)),
-            SizedBox(
-              height: 24,
-            ),
-            Divider(color: Colors.white70),
-            SizedBox(
-              height: 24,
-            ),
-            buildMenuItem(
-                text: 'Favourites',
-                icon: Icons.favorite,
-                onClicked: () => selectedItem(context, 3)),
-            buildMenuItem(
-                text: 'Purchased',
-                icon: Icons.shop,
-                onClicked: () => selectedItem(context, 4)),
-            buildMenuItem(
-                text: 'Downloads',
-                icon: Icons.download,
-                onClicked: () => selectedItem(context, 5)),
-            buildMenuItem(
-                text: 'Upload',
-                icon: Icons.upload,
-                onClicked: () => selectedItem(context, 6)),
-            buildMenuItem(
-                text: 'Log Out',
-                icon: Icons.logout,
-                onClicked: () => selectedItem(context, 7)),
-          ],
-        ),
+          ),
+        ],
       ),
-    );
+    ));
   }
 
   Widget buildHeader(
@@ -95,11 +106,30 @@ class NavigationDrawerWidget extends StatelessWidget {
         child: Row(
           children: [
             CircleAvatar(
-                radius: 30,
-                backgroundImage: NetworkImage(
-                  urlImage,
-                  scale: 1,
-                ))
+              radius: 30,
+              backgroundImage: NetworkImage(
+                urlImage,
+              ),
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            Flexible(
+                child: Wrap(
+              children: [
+                Text(
+                  name,
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                ),
+                SizedBox(
+                  height: 4,
+                ),
+                Text(
+                  email,
+                  style: TextStyle(fontSize: 12, color: Colors.white),
+                )
+              ],
+            )),
           ],
         ),
       ),

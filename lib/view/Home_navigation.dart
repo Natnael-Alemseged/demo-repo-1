@@ -25,7 +25,7 @@ class _HomeNavigationWidgetState extends State<HomeNavigationWidget> {
     return Scaffold(
       drawer: NavigationDrawerWidget(),
       appBar: AppBar(
-        title: Text('navigationbar'),
+        title: Center(child: Text("Mets'hafe Logger")),
       ),
       body: screens[currentindex],
       // child: Column(

@@ -1,7 +1,9 @@
+import 'package:app/Common_Components/Firebase/Firebase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'bookDetails.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 // ignore: sized_box_for_whitespace
 Widget BuildCard({required DocumentSnapshot snapshot}) => Container(
@@ -13,12 +15,18 @@ Widget BuildCard({required DocumentSnapshot snapshot}) => Container(
           child: ClipRRect(
             borderRadius: BorderRadius.circular(40),
             child: Ink.image(
-              image: NetworkImage(
+              image: CachedNetworkImageProvider(
                 snapshot['bookCover'],
               ),
               fit: BoxFit.cover,
               child: InkWell(
-                onTap: () => Get.to(bookDetails(snapshot: snapshot)),
+                onTap: () async {
+                  var x = snapshot.id;
+
+                  //  .then((doc) => {var y=fromSnapshot.(documentSnapshot: doc);});
+                  Get.to(bookDetails(snapshot: snapshot),
+                      arguments: Transition.cupertino);
+                },
               ),
             ),
           ),
